@@ -36,10 +36,9 @@ font = pygame.font.Font(None, 36)
 
 # Tải âm thanh
 pygame.mixer.music.load("background_music.mp3")
-jump_sound = pygame.mixer.Sound("jump.wav")
-hit_sound = pygame.mixer.Sound("hit.wav")
-damage_sound = pygame.mixer.Sound("damage_sound.wav")
-correct_sound = pygame.mixer.Sound("correct_answer.wav")
+hit_sound = pygame.mixer.Sound("hit.mp3")
+damage_sound = pygame.mixer.Sound("damage.mp3")
+correct_sound = pygame.mixer.Sound("correct.mp3")
 
 # Chạy âm thanh nền
 pygame.mixer.music.play(loops=-1)
@@ -93,9 +92,16 @@ block_image = pygame.transform.scale(block_image, (100, 20))  # Đặt kích th�
 # Vẽ khối bằng hình ảnh
 screen.blit(block_image, (block_x, block_y))
 
-# Tải hình nền
+# Tải hình nền và tài nguyên
 background = pygame.image.load("background.jpg")
 background_width, background_height = background.get_size()
+
+character = pygame.image.load("character.png")
+character = pygame.transform.scale(character, (50, 50))
+
+# Trạng thái game
+game_state = "intro"
+current_level = 1
 
 # Vị trí và vận tốc quái vật
 monster_x = 500
@@ -192,9 +198,11 @@ while running:
             bg_x += character_speed
     if keys[pygame.K_RIGHT]:
         if character_x < 3 * SCREEN_WIDTH // 4 - character_width:
+
 # Nhân vật di chuyển sang phải nếu còn khoảng cách để di chuyển
             character_x += character_speed
         elif bg_x > -(background_width - SCREEN_WIDTH):
+
 # Cuộn nền sang trái
             bg_x -= character_speed
 # Cập nhật vị trí quái vật
@@ -245,6 +253,7 @@ while running:
 # Vẽ nền
     screen.fill(WHITE)
     screen.blit(background, (bg_x, 0))
+
 # Vẽ khối di chuyển
     screen.blit(block_image, (block_x, block_y))  # Vẽ khối bằng hình ảnh
 # Vẽ nhân vật
